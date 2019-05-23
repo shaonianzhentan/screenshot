@@ -46,6 +46,7 @@ app.use(async ctx => {
     if (!fs.existsSync(`public${url}`)) {
       await screenshot(obj.url)
     }
+    console.log(url)
     ctx.body = {
       url: url
     }
