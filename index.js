@@ -8,7 +8,7 @@ app.use(bodyParser());
 
 const fs = require('fs')
 async function screenshot(url) {
-  console.log(new Date().toTimeString())
+  console.log('开始请求', new Date().toTimeString())
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     defaultViewport: {
@@ -16,12 +16,16 @@ async function screenshot(url) {
       height: 768
     }
   });
-  const page = await browser.newPage();
   let path = `public/image/${url.replace(/[^0-9a-zA-Z]/g, '')}.png`
-  await page.goto(url);
-  await page.screenshot({ path: path });
+  try {
+    const page = await browser.newPage();
+    await page.goto(url);
+    await page.screenshot({ path: path });
+  } catch (ex) {
+
+  }
   await browser.close();
-  console.log(new Date().toTimeString())
+  console.log('结束请求', new Date().toTimeString())
   return path
 }
 
