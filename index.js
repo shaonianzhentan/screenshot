@@ -10,6 +10,7 @@ const fs = require('fs')
 async function screenshot(url) {
   console.log(new Date().toTimeString())
   const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
     defaultViewport: {
       width: 1024,
       height: 768
