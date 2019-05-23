@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const Koa = require('koa');
 const path = require('path')
 const statics = require('koa-static')
+const staticCache = require('koa-static-cache')
 const app = new Koa();
 const bodyParser = require('koa-bodyparser')
 app.use(bodyParser());
@@ -30,9 +31,12 @@ async function screenshot(url) {
 }
 
 const staticPath = './public'
-app.use(statics(
-  path.join(__dirname, staticPath)
-))
+// app.use(statics(
+//   path.join(__dirname, staticPath)
+// ))
+app.use(staticCache(path.join(__dirname, staticPath), {
+  maxAge: 365 * 24 * 60 * 60
+}))
 
 app.use(async ctx => {
   if (ctx.method.toLocaleLowerCase() == 'post') {
